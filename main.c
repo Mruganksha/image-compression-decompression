@@ -6,73 +6,29 @@
 
 #include "ImageCompression.h"
 
-
-
-int main(int argc, char **argv)
-{
-
+int main(int argc, char **argv){
+    // Step 1: Ensure the correct number of command-line arguments
     if (argc < 2)
     {
-        printf("Please Enter the name of file\n");
-        return 1;
+        printf("Please enter the name of the image file.\n");
+        return 1;  // Exit if no file name is provided
     }
 
+    // Step 2: Store the file name from command-line arguments
     char *filename = argv[1];
-
     printf("Name of the file is %s\n", filename);
 
-    char *lastThree = (char *)malloc(sizeof(char) * 3);
-
-    int i = 0;
-    while (filename[i] != '.')
+    // Step 3: Check if the file has a ".bmp" extension
+    int length = strlen(filename);
+    if (length < 4 || strcmp(filename + length - 4, ".bmp") != 0)
     {
-        i++;
+        printf("\nThe file is not a valid BMP image file. Please use a '.bmp' file.\n");
+        return 1;  // Exit if the file extension is not ".bmp"
     }
 
-    lastThree[0] = filename[++i];
-    lastThree[1] = filename[++i];
-    lastThree[2] = filename[++i];
+    // Step 4: If the file is a BMP image, proceed with image compression
+    printf("\nThe file is a valid BMP image.\n");
+    imageCompression(filename);
 
-    int flag = 0;
-    int check = strcmp(lastThree, "bmp");
-    if (!check)
-    {
-        flag = 1;
-        printf("\nThe file is Image file\n");
-    }
-
-    check = strcmp(lastThree, "wav");
-    if (!check)
-    {
-        flag = 2;
-        printf("\nThe file is Audio file\n");
-    }
-    check = strcmp(lastThree, "txt");
-    if (!check)
-    {
-        flag = 3;
-        printf("\nThe file is text file\n");
-    }
-
-
-    if (flag == 0)
-    {
-        printf("\nThe file name entered is not valid. \n\n For image file please enter the name in format .bmp \n For Audio File please enter the name in format .wav \n For text files, enter the file in .txt format");
-        return 1;
-    }
-
-    // switch case for flag;
-
-    switch (flag){
-        case 1 :{
-            // Image Compression;
-            imageCompression(filename);
-            break;
-        }
-        
-        default:
-            break;
-    }
-
-    return 0;
+    return 0;  // Successful completion
 }
